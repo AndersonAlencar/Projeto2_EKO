@@ -15,8 +15,16 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         title.font = UIFont(name: "ArchivoRoman-Bold", size: 24)//UIFont.systemFont(ofSize: 24, weight: .bold)
         title.text = "Danças"
         title.textColor = .white
+        title.textAlignment = .center
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
+    }()
+    
+    private lazy var acessoryView: UIView = {
+        let acessoryView = UIView()
+        acessoryView.backgroundColor = .black.withAlphaComponent(0.5)
+        acessoryView.translatesAutoresizingMaskIntoConstraints = false
+        return acessoryView
     }()
     
     override init(frame: CGRect) {
@@ -33,10 +41,13 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 extension CategoryCollectionViewCell: ViewCode {
     func configureViews() {
         backgroundColor = .clear
+        layer.masksToBounds = true
+        layer.cornerRadius = 20
     }
     
     func buildViewHierarchy() {
         contentView.addSubview(imageBanner)
+        contentView.addSubview(acessoryView)
         contentView.addSubview(titleImage)
     }
     
@@ -47,10 +58,18 @@ extension CategoryCollectionViewCell: ViewCode {
             imageBanner.trailingAnchor.constraint(equalTo: trailingAnchor),
             imageBanner.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
         NSLayoutConstraint.activate([
-            titleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            acessoryView.topAnchor.constraint(equalTo: topAnchor),
+            acessoryView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            acessoryView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            acessoryView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            titleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
             titleImage.trailingAnchor.constraint(equalTo: trailingAnchor),
-            titleImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
+            titleImage.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

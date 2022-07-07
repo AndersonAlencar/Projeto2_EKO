@@ -28,6 +28,13 @@ class CategoryItemCollectionViewCell: UICollectionViewCell {
         return subTitle
     }()
     
+    private lazy var acessoryView: UIView = {
+        let acessoryView = UIView()
+        acessoryView.backgroundColor = .black.withAlphaComponent(0.5)
+        acessoryView.translatesAutoresizingMaskIntoConstraints = false
+        return acessoryView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         buildLayout()
@@ -42,10 +49,15 @@ class CategoryItemCollectionViewCell: UICollectionViewCell {
 extension CategoryItemCollectionViewCell: ViewCode {
     func configureViews() {
         backgroundColor = .clear
+        self.layer.masksToBounds = true
+        contentView.layer.cornerRadius = 20
+        layer.cornerRadius = 20
+
     }
     
     func buildViewHierarchy() {
         contentView.addSubview(imageBanner)
+        contentView.addSubview(acessoryView)
         contentView.addSubview(titleImage)
         contentView.addSubview(subTitle)
     }
@@ -57,6 +69,14 @@ extension CategoryItemCollectionViewCell: ViewCode {
             imageBanner.trailingAnchor.constraint(equalTo: trailingAnchor),
             imageBanner.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            acessoryView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            acessoryView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            acessoryView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            acessoryView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.27)
+        ])
+        
         NSLayoutConstraint.activate([
             titleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             titleImage.trailingAnchor.constraint(equalTo: trailingAnchor),

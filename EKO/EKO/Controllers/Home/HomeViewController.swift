@@ -12,7 +12,17 @@ class HomeViewController: UIViewController {
         return flowLayout
     }()
     
-    private lazy var collectionView: UICollectionView = {
+    private lazy var flowLayout2: UICollectionViewFlowLayout = {
+        let sectionSpacing = 0
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumInteritemSpacing = 5
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        flowLayout.scrollDirection = .vertical
+        return flowLayout
+    }()
+    
+    private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -25,16 +35,26 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = .clear
-        tableView.showsVerticalScrollIndicator = false
-        tableView.tableFooterView = UIView()
-        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "categoryCell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
+    private lazy var highlightCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout2)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        collectionView.register(CategoryItemCollectionViewCell.self, forCellWithReuseIdentifier: "highlightCell")
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    private lazy var highlightLabel: UILabel = {
+        let highlightLabel = UILabel()
+        highlightLabel.text = "DESTAQUES"
+        highlightLabel.textColor = .redEKO
+        highlightLabel.font =  UIFont(name: "ArchivoRoman-ExtraBold", size: 24)
+        highlightLabel.translatesAutoresizingMaskIntoConstraints = false
+        return highlightLabel
     }()
     
     override func viewDidLoad() {
@@ -52,97 +72,80 @@ extension HomeViewController: ViewCode {
     }
     
     func buildViewHierarchy() {
-        view.addSubview(collectionView)
-        view.addSubview(tableView)
+        view.addSubview(mainCollectionView)
+        view.addSubview(highlightLabel)
+        view.addSubview(highlightCollectionView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.45)
+            mainCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mainCollectionView.heightAnchor.constraint(equalToConstant: 360)
         ])
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            highlightLabel.topAnchor.constraint(equalTo: mainCollectionView.bottomAnchor, constant: 30),
+            highlightLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            highlightLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            highlightCollectionView.topAnchor.constraint(equalTo: highlightLabel.bottomAnchor, constant: 10),
+            highlightCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            highlightCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            highlightCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 414)
+        if collectionView == mainCollectionView {
+            return CGSize(width: collectionView.frame.width, height: 414)
+        }
+        return CGSize(width: 190, height: 200)
+        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        if collectionView == mainCollectionView {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+        return UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+
     }
 }
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        if collectionView == mainCollectionView {
+            return 10
+        }
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainBanner", for: indexPath) as? HomeMainBannerCell else { return UICollectionViewCell()}
-        return cell
+        if collectionView == self.mainCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainBanner", for: indexPath) as? HomeMainBannerCell else { return UICollectionViewCell()}
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "highlightCell", for: indexPath) as? CategoryItemCollectionViewCell else { return UICollectionViewCell()}
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ArtistUIViewController()
-        controller.title = "Aqui terá destaque"
-        navigationController?.pushViewController(controller, animated: true)
+        if collectionView == mainCollectionView {
+            let controller = ArtistUIViewController()
+            controller.title = "Aqui terá destaque"
+            navigationController?.pushViewController(controller, animated: true)
+        } else {
+            let controller = SelectedPostViewController()
+            controller.title = "Aqui terá postagem"
+            present(controller, animated: true)
+        }
+        
     }
 }
 
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as? CategoryTableViewCell else { return UITableViewCell() }
-        cell.home = self
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 140
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Underere"
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 50))
-        let label = UILabel()
-        label.frame = CGRect.init(x: 0, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
-        label.textAlignment = .center
-        switch section {
-        case 1:
-            label.text = "Destaques"
-        default:
-            label.text = "Categorias"
-        }
-        
-        label.font =  UIFont(name: "ArchivoRoman-ExtraBold", size: 25)//UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.textColor = .redEKO
-        
-        headerView.addSubview(label)
-        
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-}
