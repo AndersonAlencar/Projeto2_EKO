@@ -61,13 +61,17 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         buildLayout()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
 }
 
 extension HomeViewController: ViewCode {
     func configureViews() {
         self.tabBarController?.tabBar.items![0].image = UIImage(named: "home")
         self.tabBarController?.tabBar.items![0].selectedImage = UIImage(named: "homeSelected")
-        view.backgroundColor = .magentaEKO
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background1.jpeg")!)
         self.navigationController?.isNavigationBarHidden = true
     }
     
@@ -137,8 +141,7 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mainCollectionView {
-            let controller = ArtistUIViewController()
-            controller.title = "Aqui terá destaque"
+            let controller = HighlightViewController()
             navigationController?.pushViewController(controller, animated: true)
         } else {
             let controller = SelectedPostViewController()

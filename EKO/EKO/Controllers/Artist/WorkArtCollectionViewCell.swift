@@ -1,6 +1,6 @@
 import UIKit
 
-class CategoryItemCollectionViewCell: UICollectionViewCell {
+class WorkArtCollectionViewCell: UICollectionViewCell {
     private lazy var imageBanner: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -12,20 +12,11 @@ class CategoryItemCollectionViewCell: UICollectionViewCell {
     
     private lazy var titleImage: UILabel = {
         let title = UILabel()
-        title.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        title.text = "Músicas Típicas"
+        title.font = UIFont(name: "ArchivoRoman-Black", size: 18)
+        title.text = "Cymeíma"
         title.textColor = .magentaEKO
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
-    }()
-    
-    private lazy var subTitle: UILabel = {
-        let subTitle = UILabel()
-        subTitle.font = UIFont.systemFont(ofSize: 12)
-        subTitle.text = "Povo Kayapó"
-        subTitle.textColor = .magentaEKO
-        subTitle.translatesAutoresizingMaskIntoConstraints = false
-        return subTitle
     }()
     
     private lazy var acessoryView: UIView = {
@@ -46,7 +37,7 @@ class CategoryItemCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension CategoryItemCollectionViewCell: ViewCode {
+extension WorkArtCollectionViewCell: ViewCode {
     func configureViews() {
         backgroundColor = .clear
         self.layer.masksToBounds = true
@@ -59,7 +50,6 @@ extension CategoryItemCollectionViewCell: ViewCode {
         contentView.addSubview(imageBanner)
         contentView.addSubview(acessoryView)
         contentView.addSubview(titleImage)
-        contentView.addSubview(subTitle)
     }
     
     func setupConstraints() {
@@ -78,14 +68,9 @@ extension CategoryItemCollectionViewCell: ViewCode {
         ])
         
         NSLayoutConstraint.activate([
-            titleImage.topAnchor.constraint(equalTo: acessoryView.topAnchor, constant: 8),
-            titleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            titleImage.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ])
-        NSLayoutConstraint.activate([
-            subTitle.topAnchor.constraint(equalTo: titleImage.bottomAnchor, constant: 4),
-            subTitle.leadingAnchor.constraint(equalTo: titleImage.leadingAnchor),
-            subTitle.trailingAnchor.constraint(equalTo: trailingAnchor)
+            titleImage.centerYAnchor.constraint(equalTo: acessoryView.centerYAnchor),
+            titleImage.leadingAnchor.constraint(equalTo: acessoryView.leadingAnchor, constant: 8),
+            titleImage.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }

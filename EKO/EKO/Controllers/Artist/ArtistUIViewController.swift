@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ArtistViewController: UIViewController {
     
     private lazy var imageProfile: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 20
-        image.image = UIImage(named: "foto5")
+        image.image = UIImage(named: "foto3")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -26,10 +26,23 @@ class ProfileViewController: UIViewController {
         return acessoryView
     }()
     
+    private lazy var artistTag: UILabel = {
+        let title = UILabel()
+        title.font = UIFont(name: "ArchivoItalic-Bold", size: 14)
+        title.text = "Artista"
+        title.layer.cornerRadius = 12
+        title.clipsToBounds = true
+        title.backgroundColor = .brownEKO
+        title.textAlignment = .center
+        title.textColor = .magenta2EKO
+        title.translatesAutoresizingMaskIntoConstraints = false
+        return title
+    }()
+    
     private lazy var nameProfile: UILabel = {
         let title = UILabel()
-        title.font = UIFont(name: "ArchivoRoman-Bold", size: 32)//UIFont.systemFont(ofSize: 32, weight: .bold)
-        title.text = "Cymeima Aráuna"
+        title.font = UIFont(name: "ArchivoRoman-Bold", size: 32)
+        title.text = "Araquém Aráuna"
         title.textAlignment = .center
         title.textColor = .magenta2EKO
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -38,35 +51,34 @@ class ProfileViewController: UIViewController {
 
     private lazy var descriptionProfile: UILabel = {
         let descriptionProfile = UILabel()
-        descriptionProfile.font = UIFont(name: "ArchivoRoman-Bold", size: 20)//UIFont.systemFont(ofSize: 20, weight: .bold)
+        descriptionProfile.font = UIFont(name: "ArchivoItalic-Regular", size: 16)
         descriptionProfile.numberOfLines = 0
-        descriptionProfile.text = "25 anos, Ele/Dele "
+        descriptionProfile.text = "Povo Kayapó, 25 anos - Ele/Dele"
         descriptionProfile.textColor = .magentaEKO
         descriptionProfile.textAlignment = .center
         descriptionProfile.translatesAutoresizingMaskIntoConstraints = false
         return descriptionProfile
     }()
     
-    private lazy var editProfileButton: UIButton = {
-        let editProfile = UIButton()
-
-        editProfile.setImage(UIImage(named: "editButton"), for: .normal)
-        editProfile.translatesAutoresizingMaskIntoConstraints = false
-        return editProfile
-    }()
-    
-    private lazy var favoriteButton: UIButton = {
-        let editProfile = UIButton()
-        editProfile.setImage(UIImage(named: "heart"), for: .normal)
-        editProfile.translatesAutoresizingMaskIntoConstraints = false
-        return editProfile
+    private lazy var followButton: UIButton = {
+        let followButton = UIButton()
+        followButton.setTitle("seguindo", for: .normal)
+        followButton.backgroundColor = .clear
+        followButton.layer.borderColor = UIColor.magentaEKO.cgColor
+        followButton.layer.borderWidth = 3
+        followButton.layer.cornerRadius = 15
+        followButton.clipsToBounds = true
+        followButton.setTitleColor(.magentaEKO, for: .normal)
+        followButton.titleLabel?.font = UIFont(name: "ArchivoRoman-Light", size: 14)
+        followButton.translatesAutoresizingMaskIntoConstraints = false
+        return followButton
     }()
     
     private lazy var favoriteLabel: UILabel = {
         let title = UILabel()
         title.font = UIFont(name: "ArchivoRoman-ExtraBold", size: 24)//UIFont.systemFont(ofSize: 24, weight: .regular)
         title.numberOfLines = 0
-        title.text = "FAVORITOS"
+        title.text = "DESTAQUES"
         title.textColor = .redEKO
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
@@ -96,9 +108,9 @@ class ProfileViewController: UIViewController {
     
     private lazy var artistLabel: UILabel = {
         let title = UILabel()
-        title.font = UIFont(name: "ArchivoRoman-ExtraBold", size: 24)//UIFont.systemFont(ofSize: 24, weight: .regular)
+        title.font = UIFont(name: "ArchivoRoman-ExtraBold", size: 24)
         title.numberOfLines = 0
-        title.text = "Artistas Visitados"
+        title.text = "OBRAS"
         title.textColor = .redEKO
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
@@ -114,12 +126,12 @@ class ProfileViewController: UIViewController {
         return flowLayout
     }()
     
-    private lazy var collectionViewArtist: UICollectionView = {
+    private lazy var collectionViewWorkArtist: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout2)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        collectionView.register(ArtistCollectionViewCell.self, forCellWithReuseIdentifier: "artistItem")
+        collectionView.register(WorkArtCollectionViewCell.self, forCellWithReuseIdentifier: "artistItem")
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -137,24 +149,25 @@ class ProfileViewController: UIViewController {
     }
 }
 
-extension ProfileViewController: ViewCode {
+extension ArtistViewController: ViewCode {
     func configureViews() {
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "background1.jpeg")!)
+        view.backgroundColor = .magentaEKO
         self.tabBarController?.tabBar.items![2].image = UIImage(named: "profile")
         self.tabBarController?.tabBar.items![2].selectedImage = UIImage(named: "profileSelected")
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     func buildViewHierarchy() {
         view.addSubview(imageProfile)
         view.addSubview(acessoryView)
+        view.addSubview(artistTag)
         view.addSubview(nameProfile)
+        view.addSubview(followButton)
         view.addSubview(descriptionProfile)
-        view.addSubview(editProfileButton)
         view.addSubview(favoriteLabel)
         view.addSubview(collectionViewFavorite)
         view.addSubview(artistLabel)
-        view.addSubview(collectionViewArtist)
+        view.addSubview(collectionViewWorkArtist)
     }
     
     func setupConstraints() {
@@ -173,9 +186,23 @@ extension ProfileViewController: ViewCode {
         ])
         
         NSLayoutConstraint.activate([
+            artistTag.centerYAnchor.constraint(equalTo: acessoryView.topAnchor),
+            artistTag.centerXAnchor.constraint(equalTo: acessoryView.centerXAnchor),
+            artistTag.widthAnchor.constraint(equalToConstant: 115),
+            artistTag.heightAnchor.constraint(equalToConstant: 24)
+        ])
+        
+        NSLayoutConstraint.activate([
             nameProfile.leadingAnchor.constraint(equalTo: acessoryView.leadingAnchor),
             nameProfile.trailingAnchor.constraint(equalTo: acessoryView.trailingAnchor),
             nameProfile.topAnchor.constraint(equalTo: acessoryView.topAnchor, constant: 14)
+        ])
+        
+        NSLayoutConstraint.activate([
+            followButton.centerYAnchor.constraint(equalTo: acessoryView.centerYAnchor, constant: 20),
+            followButton.trailingAnchor.constraint(equalTo: acessoryView.trailingAnchor, constant: -12),
+            followButton.widthAnchor.constraint(equalToConstant: 75),
+            followButton.heightAnchor.constraint(equalToConstant: 31)
         ])
         
         NSLayoutConstraint.activate([
@@ -183,13 +210,6 @@ extension ProfileViewController: ViewCode {
             descriptionProfile.trailingAnchor.constraint(equalTo: acessoryView.trailingAnchor),
             descriptionProfile.topAnchor.constraint(equalTo: nameProfile.bottomAnchor, constant: 5),
             descriptionProfile.bottomAnchor.constraint(lessThanOrEqualTo: acessoryView.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            editProfileButton.bottomAnchor.constraint(equalTo: acessoryView.topAnchor, constant: 20),
-            editProfileButton.trailingAnchor.constraint(equalTo: acessoryView.trailingAnchor, constant: -13),
-            editProfileButton.widthAnchor.constraint(equalToConstant: 40),
-            editProfileButton.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         NSLayoutConstraint.activate([
@@ -202,7 +222,7 @@ extension ProfileViewController: ViewCode {
             collectionViewFavorite.topAnchor.constraint(equalTo: favoriteLabel.bottomAnchor, constant: 11),
             collectionViewFavorite.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionViewFavorite.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionViewFavorite.heightAnchor.constraint(equalToConstant: 175)
+            collectionViewFavorite.heightAnchor.constraint(equalToConstant: 180)
         ])
         
         NSLayoutConstraint.activate([
@@ -212,20 +232,20 @@ extension ProfileViewController: ViewCode {
         ])
         
         NSLayoutConstraint.activate([
-            collectionViewArtist.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 11),
-            collectionViewArtist.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionViewArtist.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionViewArtist.heightAnchor.constraint(equalToConstant: 170)
+            collectionViewWorkArtist.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 11),
+            collectionViewWorkArtist.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionViewWorkArtist.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionViewWorkArtist.heightAnchor.constraint(equalToConstant: 170)
         ])
     }
 }
 
-extension ProfileViewController: UICollectionViewDelegateFlowLayout {
+extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionViewFavorite {
-            return CGSize(width: 160, height: 175)
+            return CGSize(width: 160, height: 180)
         }
-        return CGSize(width: 100, height: 160)
+        return CGSize(width: 190, height: 170)
         
     }
     
@@ -234,11 +254,11 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ProfileViewController: UICollectionViewDataSource {
+extension ArtistViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionViewFavorite {
             return 10
-        } else if collectionView == self.collectionViewArtist {
+        } else if collectionView == self.collectionViewWorkArtist {
             return 8
         }
         return 2
@@ -249,13 +269,12 @@ extension ProfileViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoriteItem", for: indexPath) as? CategoryItemCollectionViewCell else { return UICollectionViewCell()}
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "artistItem", for: indexPath) as? ArtistCollectionViewCell else { return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "artistItem", for: indexPath) as? WorkArtCollectionViewCell else { return UICollectionViewCell()}
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ArtistViewController()
-        navigationController?.pushViewController(controller, animated: true)
+        print("slecionado")
     }
 }

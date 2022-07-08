@@ -19,6 +19,9 @@ extension UIColor {
     //#ffecd6
     static let magentaEKO = UIColor(red: 1.00, green: 0.93, blue: 0.84, alpha: 1.00)
     
+    //#fff6eb
+    static let magenta2EKO = UIColor(red: 1.00, green: 0.96, blue: 0.92, alpha: 1.00)
+    
     //#efefef
     static let white1EKO = UIColor(red: 0.94, green: 0.94, blue: 0.94, alpha: 1.00)
     

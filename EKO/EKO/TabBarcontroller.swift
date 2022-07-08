@@ -16,7 +16,7 @@ class TabBarcontroller: UITabBarController {
         viewControllers = [
             createNavController(for: HomeViewController(), title: NSLocalizedString("", comment: ""), image: UIImage(systemName: "house")!),
             createNavController(for: CategoriesViewController(), title: NSLocalizedString("Explore", comment: ""), image: UIImage(named: "explore")!),
-            createNavController(for: ProfileViewController(), title: NSLocalizedString("Perfil", comment: ""), image: UIImage(named: "profile")!)
+            createNavController(for: ProfileViewController(), title: NSLocalizedString("", comment: ""), image: UIImage(named: "profile")!)
         ]
     }
     

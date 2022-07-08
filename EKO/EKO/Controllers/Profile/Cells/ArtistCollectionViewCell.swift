@@ -4,9 +4,12 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     
     private lazy var imageArtist: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.image = UIImage(named: "uti2")
+        image.layer.cornerRadius = 45
+        image.layer.borderWidth = 3
+        image.layer.borderColor = UIColor.brownEKO.cgColor
+        image.image = UIImage(named: "foto8")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -14,7 +17,8 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     private lazy var nameArtist: UILabel = {
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        title.text = "Mebêngôkre"
+        title.text = "Araquém Aráuna"
+        title.numberOfLines = 0
         title.textAlignment = .center
         title.textColor = .black
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -45,18 +49,18 @@ extension ArtistCollectionViewCell: ViewCode {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            imageArtist.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageArtist.topAnchor.constraint(equalTo: topAnchor),
-            imageArtist.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageArtist.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageArtist.bottomAnchor.constraint(equalTo: nameArtist.topAnchor, constant: -5)
+            imageArtist.widthAnchor.constraint(equalToConstant: 90),
+            imageArtist.heightAnchor.constraint(equalToConstant: 90)
         ])
         
         NSLayoutConstraint.activate([
-            nameArtist.leadingAnchor.constraint(equalTo: leadingAnchor),
-            nameArtist.trailingAnchor.constraint(equalTo: trailingAnchor),
-            nameArtist.heightAnchor.constraint(equalToConstant: 30),
-            nameArtist.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
+            nameArtist.topAnchor.constraint(equalTo: imageArtist.bottomAnchor, constant: 7),
+            nameArtist.leadingAnchor.constraint(equalTo: imageArtist.leadingAnchor),
+            nameArtist.trailingAnchor.constraint(equalTo: imageArtist.trailingAnchor),
+            //nameArtist.heightAnchor.constraint(equalToConstant: 30),
+            nameArtist.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor)
         ])
     }
 }

@@ -13,7 +13,7 @@ class HomeMainBannerCell: UICollectionViewCell {
     
     private lazy var titleImage: UILabel = {
         let title = UILabel()
-        title.font = UIFont(name: "ArchivoRoman-ExtraBold", size: 32)//UIFont.systemFont(ofSize: 32, weight: .bold)
+        title.font = UIFont(name: "ArchivoRoman-ExtraBold", size: 30)//UIFont.systemFont(ofSize: 32, weight: .bold)
         title.text = "Pinturas Corporais"
         title.textColor = .magentaEKO
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -82,23 +82,23 @@ extension HomeMainBannerCell: ViewCode {
             acessoryView.bottomAnchor.constraint(equalTo: bottomAnchor),
             acessoryView.leadingAnchor.constraint(equalTo: leadingAnchor),
             acessoryView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            acessoryView.heightAnchor.constraint(equalToConstant: 130)
+            acessoryView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.35)
         ])
         
         NSLayoutConstraint.activate([
-            titleImage.topAnchor.constraint(equalTo: acessoryView.topAnchor, constant: 10),
+            titleImage.topAnchor.constraint(equalTo: acessoryView.topAnchor, constant: 8),
             titleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             titleImage.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            subTitle.topAnchor.constraint(equalTo: titleImage.bottomAnchor, constant: 5),
+            subTitle.topAnchor.constraint(equalTo: titleImage.bottomAnchor, constant: 10),
             subTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             subTitle.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            highlight.topAnchor.constraint(equalTo: acessoryView.topAnchor, constant: 55),
+            highlight.topAnchor.constraint(equalTo: acessoryView.topAnchor, constant: 50),
             highlight.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
             highlight.widthAnchor.constraint(equalToConstant: 120)
         ])

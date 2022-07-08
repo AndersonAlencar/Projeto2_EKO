@@ -46,7 +46,7 @@ extension CategoriesViewController: ViewCode {
         searchController.searchResultsUpdater = self
         self.tabBarController?.tabBar.items![1].image = UIImage(named: "explore")
         self.tabBarController?.tabBar.items![1].selectedImage = UIImage(named: "exploreSelected")
-        //self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     func buildViewHierarchy() {
@@ -90,7 +90,7 @@ extension CategoriesViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ArtistUIViewController()
+        let controller = ArtistViewController()
         controller.title = "Aqui terá Postagens"
         navigationController?.pushViewController(controller, animated: true)
     }
