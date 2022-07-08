@@ -13,6 +13,8 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         let title = UILabel()
         title.font = UIFont(name: "ArchivoRoman-ExtraBold", size: 72)//UIFont.systemFont(ofSize: 24, weight: .bold)
         title.text = "EXPLORE"
+        title.adjustsFontSizeToFitWidth = true
+        title.minimumScaleFactor = 0.1
         title.textColor = .redEKO
         title.textAlignment = .center
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -22,6 +24,10 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         buildLayout()
+    }
+    
+    func setup(title: String) {
+        self.titleLabel.text = title
     }
 
     @available(*, unavailable)

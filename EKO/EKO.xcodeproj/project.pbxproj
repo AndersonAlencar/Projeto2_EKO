@@ -35,6 +35,7 @@
 		A5398452286627A1004ED22D /* ArtistUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5398451286627A1004ED22D /* ArtistUIViewController.swift */; };
 		A54C8AA628779D9700F49831 /* SeeMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C8AA528779D9700F49831 /* SeeMoreViewController.swift */; };
 		A54C8AAA2877CA3300F49831 /* WorkArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C8AA92877CA3300F49831 /* WorkArtCollectionViewCell.swift */; };
+		A54C8AAC28785CA100F49831 /* SelectedCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C8AAB28785CA100F49831 /* SelectedCategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		A5398451286627A1004ED22D /* ArtistUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistUIViewController.swift; sourceTree = "<group>"; };
 		A54C8AA528779D9700F49831 /* SeeMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreViewController.swift; sourceTree = "<group>"; };
 		A54C8AA92877CA3300F49831 /* WorkArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkArtCollectionViewCell.swift; sourceTree = "<group>"; };
+		A54C8AAB28785CA100F49831 /* SelectedCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				A5091A3A285B8D5300A984BA /* CategoriesViewController.swift */,
+				A54C8AAB28785CA100F49831 /* SelectedCategoryViewController.swift */,
 				A53746E4287623A60077DB42 /* Cells */,
 			);
 			path = Categories;
@@ -421,6 +424,7 @@
 				A53746EA28767ACF0077DB42 /* HighlightViewController.swift in Sources */,
 				A517DF3B285225D2003669DD /* CategoryTableViewCell.swift in Sources */,
 				A53746E6287623BA0077DB42 /* ExploreCollectionViewCell.swift in Sources */,
+				A54C8AAC28785CA100F49831 /* SelectedCategoryViewController.swift in Sources */,
 				A53984492865EEC3004ED22D /* CarousselTableViewCell.swift in Sources */,
 				A54C8AAA2877CA3300F49831 /* WorkArtCollectionViewCell.swift in Sources */,
 				A53984442865D569004ED22D /* ArtistCollectionViewCell.swift in Sources */,
