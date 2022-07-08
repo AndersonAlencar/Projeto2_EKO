@@ -9,6 +9,23 @@ import UIKit
 
 class ArtistViewController: UIViewController {
     
+    let artistModel = [
+        MainModel(imageName: "artesanato3", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "artesanato2", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "artesanato9", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "artesanato11", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "artesanato17", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "artesanato16", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo")
+    ]
+    
+    let workArtModel = [
+        MainModel(imageName: "artesanato15", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "foto6"),
+        MainModel(imageName: "artesanato16", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "fotografia4", artist: "Baraúna Coaraci", subtitle: "Fotografia", imageProfileArtist: "foto3"),
+        MainModel(imageName: "moda3", artist: "Baraúna Coaraci", subtitle: "Moda", imageProfileArtist: "foto5"),
+        MainModel(imageName: "pintura5", artist: "Baraúna Coaraci", subtitle: "Pintura Corporal", imageProfileArtist: "foto6")
+    ]
+    
     private lazy var imageProfile: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -94,7 +111,7 @@ class ArtistViewController: UIViewController {
         return flowLayout
     }()
     
-    private lazy var collectionViewFavorite: UICollectionView = {
+    private lazy var collectionViewDestaque: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -144,6 +161,12 @@ class ArtistViewController: UIViewController {
         buildLayout()
     }
     
+    func setup(name: String, description: String, image: String) {
+        self.nameProfile.text = name
+        self.descriptionProfile.text = description
+        self.imageProfile.image = UIImage(named: image)
+    }
+    
     override func viewWillLayoutSubviews() {
         acessoryView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
     }
@@ -165,7 +188,7 @@ extension ArtistViewController: ViewCode {
         view.addSubview(followButton)
         view.addSubview(descriptionProfile)
         view.addSubview(favoriteLabel)
-        view.addSubview(collectionViewFavorite)
+        view.addSubview(collectionViewDestaque)
         view.addSubview(artistLabel)
         view.addSubview(collectionViewWorkArtist)
     }
@@ -219,16 +242,16 @@ extension ArtistViewController: ViewCode {
         ])
         
         NSLayoutConstraint.activate([
-            collectionViewFavorite.topAnchor.constraint(equalTo: favoriteLabel.bottomAnchor, constant: 11),
-            collectionViewFavorite.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionViewFavorite.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionViewFavorite.heightAnchor.constraint(equalToConstant: 180)
+            collectionViewDestaque.topAnchor.constraint(equalTo: favoriteLabel.bottomAnchor, constant: 11),
+            collectionViewDestaque.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionViewDestaque.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionViewDestaque.heightAnchor.constraint(equalToConstant: 180)
         ])
         
         NSLayoutConstraint.activate([
             artistLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             artistLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
-            artistLabel.topAnchor.constraint(equalTo: collectionViewFavorite.bottomAnchor, constant: 20)
+            artistLabel.topAnchor.constraint(equalTo: collectionViewDestaque.bottomAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
@@ -242,7 +265,7 @@ extension ArtistViewController: ViewCode {
 
 extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == self.collectionViewFavorite {
+        if collectionView == self.collectionViewDestaque {
             return CGSize(width: 160, height: 180)
         }
         return CGSize(width: 190, height: 170)
@@ -256,25 +279,39 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
 
 extension ArtistViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == self.collectionViewFavorite {
-            return 10
+        if collectionView == self.collectionViewDestaque {
+            return artistModel.count
         } else if collectionView == self.collectionViewWorkArtist {
-            return 8
+            return workArtModel.count
         }
         return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == self.collectionViewFavorite {
+        if collectionView == self.collectionViewDestaque {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoriteItem", for: indexPath) as? CategoryItemCollectionViewCell else { return UICollectionViewCell()}
+            let model = artistModel[indexPath.row]
+            cell.setupCell(title: model.artist, subTitle: model.subtitle, image: model.imageName)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "artistItem", for: indexPath) as? WorkArtCollectionViewCell else { return UICollectionViewCell()}
+            let model = workArtModel[indexPath.row]
+            cell.setup(title: model.artist, imageName: model.imageName)
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("slecionado")
+        if collectionView == collectionViewDestaque {
+            let controller = SelectedPostViewController()
+            let model = artistModel[indexPath.row]
+            controller.setup(category: model.subtitle, artistName: model.artist, artistDescription: "Povo Kayapó", image: model.imageName, artistImage: model.imageProfileArtist!)
+            present(controller, animated: true)
+        } else {
+            let controller = SelectedPostViewController()
+            let model = artistModel[indexPath.row]
+            controller.setup(category: model.subtitle, artistName: model.artist, artistDescription: "Povo Kayapó", image: model.imageName, artistImage: model.imageProfileArtist!)
+            present(controller, animated: true)
+        }
     }
 }

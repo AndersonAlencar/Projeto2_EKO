@@ -30,6 +30,11 @@ class WorkArtCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         buildLayout()
     }
+    
+    func setup(title: String, imageName: String) {
+        self.titleImage.text = title
+        self.imageBanner.image = UIImage(named: imageName)
+    }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {

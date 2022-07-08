@@ -1,6 +1,18 @@
 import UIKit
 
+struct CategoryModel {
+    let title: String
+    let imageCategory: String
+}
+
 class CategoriesViewController: UIViewController {
+    
+    let categoryModel = [
+        CategoryModel(title: "Vestuário", imageCategory: "moda5"),
+        CategoryModel(title: "Pintura Corporal", imageCategory: "pintura6"),
+        CategoryModel(title: "Artesanato", imageCategory: "artesanato15"),
+        CategoryModel(title: "fotografia", imageCategory: "fotografia6")
+    ]
     
     private lazy var searchController: UISearchController = {
         let search = UISearchController()
@@ -77,7 +89,7 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout {
 
 extension CategoriesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        self.categoryModel.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -86,6 +98,8 @@ extension CategoriesViewController: UICollectionViewDataSource {
             return cell
         }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as? CategoryCollectionViewCell else { return UICollectionViewCell()}
+        let model = categoryModel[indexPath.row - 1]
+        cell.setup(tile: model.title, imageName: model.imageCategory)
         return cell
     }
     

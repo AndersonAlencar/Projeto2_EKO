@@ -103,6 +103,14 @@ class HighlightViewController: UIViewController {
         //acessoryView.roundCorners(corners: [.topLeft, .topRight], radius: 20)
     }
     
+    func setup(category: String, artistName: String, artistDescription: String, image: String, artistImage: String) {
+        self.backgroundImage.image = UIImage(named: image)
+        self.categoryLabel.text = category
+        self.artistName.text = artistName
+        self.artistDescription.text = artistDescription
+        self.artistImage.image = UIImage(named: artistImage)
+    }
+    
     @objc
     func tapSeeMore() {
         let seeMoreController = SeeMoreViewController()

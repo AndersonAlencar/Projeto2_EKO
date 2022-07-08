@@ -1,6 +1,14 @@
 import UIKit
 
 class SelectedPostViewController: UIViewController {
+    
+    let otherWorksModel = [
+        MainModel(imageName: "fotografia6", artist: "Cymeíma", subtitle: "Fotografia", imageProfileArtist: "foto5"),
+        MainModel(imageName: "moda1", artist: "Mekrãgnoti", subtitle: "Moda", imageProfileArtist: "foto6"),
+        MainModel(imageName: "artesanato17", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "fotografia2", artist: "Mekrãgnoti", subtitle: "Fotografia", imageProfileArtist: "foto6"),
+        MainModel(imageName: "pintura9", artist: "Baraúna Coaraci", subtitle: "Pintura Corporal", imageProfileArtist: "kayapo")
+    ]
 
     private lazy var imageBanner: UIImageView = {
         let image = UIImageView()
@@ -99,6 +107,14 @@ class SelectedPostViewController: UIViewController {
         return collectionView
     }()
     
+    func setup(category: String, artistName: String, artistDescription: String, image: String, artistImage: String) {
+        self.imageBanner.image = UIImage(named: image)
+        self.categoryTag.text = category
+        self.nameArtist.text = artistName
+        self.descriptionArtist.text = artistDescription
+        self.artistImage.image = UIImage(named: artistImage)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
@@ -192,11 +208,13 @@ extension SelectedPostViewController: UICollectionViewDelegateFlowLayout {
 
 extension SelectedPostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return otherWorksModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoriteItem", for: indexPath) as? CategoryItemCollectionViewCell else { return UICollectionViewCell()}
+        let model = otherWorksModel[indexPath.row]
+        cell.setupCell(title: model.artist, subTitle: model.subtitle, image: model.imageName)
         return cell
     }
     

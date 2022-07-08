@@ -39,6 +39,12 @@ class CategoryItemCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         buildLayout()
     }
+    
+    func setupCell(title: String, subTitle: String, image: String) {
+        self.titleImage.text = title
+        self.subTitle.text = subTitle
+        self.imageBanner.image = UIImage(named: image)
+    }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {

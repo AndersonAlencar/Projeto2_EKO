@@ -1,6 +1,33 @@
 import UIKit
 
+struct MainModel {
+    let imageName: String
+    let artist: String
+    let subtitle: String
+    let imageProfileArtist: String?
+}
+
 class HomeViewController: UIViewController {
+    
+    let mainModel = [
+        MainModel(imageName: "artesanato11", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "fotografia3", artist: "Araquém Aráuna", subtitle: "Fotografia", imageProfileArtist: "foto3"),
+        MainModel(imageName: "moda7", artist: "Cymeíma", subtitle: "Moda", imageProfileArtist: "foto5"),
+        MainModel(imageName: "pintura3", artist: "Mekrãgnoti", subtitle: "Pintura Corporal", imageProfileArtist: "foto6")
+    ]
+    
+    let highlightModel = [
+        MainModel(imageName: "foto7", artist: "Mekrãgnoti", subtitle: "Moda", imageProfileArtist: "foto6"),
+        MainModel(imageName: "artesanato8", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "fotografia5", artist: "Araquém Aráuna", subtitle: "Fotografia", imageProfileArtist: "foto3"),
+        MainModel(imageName: "moda6", artist: "Cymeíma", subtitle: "Moda", imageProfileArtist: "foto5"),
+        MainModel(imageName: "pintura10", artist: "Mekrãgnoti", subtitle: "Pintura Corporal", imageProfileArtist: "foto6"),
+        MainModel(imageName: "artesanato16", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo"),
+        MainModel(imageName: "fotografia4", artist: "Araquém Aráuna", subtitle: "Fotografia", imageProfileArtist: "foto3"),
+        MainModel(imageName: "moda3", artist: "Cymeíma", subtitle: "Moda", imageProfileArtist: "foto5"),
+        MainModel(imageName: "pintura5", artist: "Mekrãgnoti", subtitle: "Pintura Corporal", imageProfileArtist: "foto6"),
+        MainModel(imageName: "artesanato3", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo")
+    ]
 
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         let sectionSpacing = 0
@@ -124,17 +151,21 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == mainCollectionView {
-            return 10
+            return mainModel.count
         }
-        return 20
+        return highlightModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.mainCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainBanner", for: indexPath) as? HomeMainBannerCell else { return UICollectionViewCell()}
+            let model = mainModel[indexPath.row]
+            cell.setupCell(title: model.artist, subTitle: model.subtitle, image: model.imageName)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "highlightCell", for: indexPath) as? CategoryItemCollectionViewCell else { return UICollectionViewCell()}
+            let model = highlightModel[indexPath.row]
+            cell.setupCell(title: model.artist, subTitle: model.subtitle, image: model.imageName)
             return cell
         }
     }
@@ -142,10 +173,13 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mainCollectionView {
             let controller = HighlightViewController()
+            let model = mainModel[indexPath.row]
+            controller.setup(category: model.subtitle, artistName: model.artist, artistDescription: "Povo Kayapó", image: model.imageName, artistImage: model.imageProfileArtist!)
             navigationController?.pushViewController(controller, animated: true)
         } else {
             let controller = SelectedPostViewController()
-            controller.title = "Aqui terá postagem"
+            let model = highlightModel[indexPath.row]
+            controller.setup(category: model.subtitle, artistName: model.artist, artistDescription: "Povo Kayapó", image: model.imageName, artistImage: model.imageProfileArtist!)
             present(controller, animated: true)
         }
         

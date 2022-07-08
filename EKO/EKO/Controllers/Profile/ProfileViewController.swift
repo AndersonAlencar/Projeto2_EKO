@@ -7,14 +7,35 @@
 
 import UIKit
 
+struct ArtistModel {
+    let name: String
+    let imageProfile: String
+    let description: String
+}
+
 class ProfileViewController: UIViewController {
+    
+    let favoriteModel = [
+        MainModel(imageName: "moda6", artist: "Cymeíma", subtitle: "Moda", imageProfileArtist: "foto5"),
+        MainModel(imageName: "pintura10", artist: "Mekrãgnoti", subtitle: "Pintura Corporal", imageProfileArtist: "foto6"),
+        MainModel(imageName: "pintura5", artist: "Mekrãgnoti", subtitle: "Pintura Corporal", imageProfileArtist: "foto6"),
+        MainModel(imageName: "pintura4", artist: "Mekrãgnoti", subtitle: "Pintura Corporal", imageProfileArtist: "foto6"),
+        MainModel(imageName: "artesanato3", artist: "Baraúna Coaraci", subtitle: "Artesanato", imageProfileArtist: "kayapo")
+    ]
+    
+    let artistModel = [
+        ArtistModel(name: "Baraúna Coaraci", imageProfile: "kayapo", description: "Povo Kayapó, 25 anos"),
+        ArtistModel(name: "Araquém Aráuna", imageProfile: "foto3", description: "Kayapó, 32 anos"),
+        ArtistModel(name: "Cymeíma", imageProfile: "foto5", description: "45 anos, Ele/Dele"),
+        ArtistModel(name: "Mekrãgnoti", imageProfile: "foto6", description: "Povo Kayapó, 29 anos")
+    ]
     
     private lazy var imageProfile: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 20
-        image.image = UIImage(named: "foto5")
+        image.image = UIImage(named: "profileUser")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -160,7 +181,7 @@ extension ProfileViewController: ViewCode {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             imageProfile.topAnchor.constraint(equalTo: view.topAnchor),
-            imageProfile.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageProfile.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -2),
             imageProfile.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             imageProfile.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.415)
         ])
@@ -237,9 +258,9 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionViewFavorite {
-            return 10
+            return favoriteModel.count
         } else if collectionView == self.collectionViewArtist {
-            return 8
+            return artistModel.count
         }
         return 2
     }
@@ -247,15 +268,28 @@ extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.collectionViewFavorite {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoriteItem", for: indexPath) as? CategoryItemCollectionViewCell else { return UICollectionViewCell()}
+            let model  = favoriteModel[indexPath.row]
+            cell.setupCell(title: model.artist, subTitle: model.subtitle, image: model.imageName)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "artistItem", for: indexPath) as? ArtistCollectionViewCell else { return UICollectionViewCell()}
+            let model  = artistModel[indexPath.row]
+            cell.setup(name: model.name, image: model.imageProfile)
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ArtistViewController()
-        navigationController?.pushViewController(controller, animated: true)
+        if collectionView == collectionViewArtist {
+            let controller = ArtistViewController()
+            let model = artistModel[indexPath.row]
+            controller.setup(name: model.name, description: model.description, image: model.imageProfile)
+            navigationController?.pushViewController(controller, animated: true)
+        } else {
+            let controller = SelectedPostViewController()
+            let model = favoriteModel[indexPath.row]
+            controller.setup(category: model.subtitle, artistName: model.artist, artistDescription: "Povo Kayapó", image: model.imageName, artistImage: model.imageProfileArtist!)
+            present(controller, animated: true)
+        }
     }
 }

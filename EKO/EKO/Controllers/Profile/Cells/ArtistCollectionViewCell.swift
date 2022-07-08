@@ -29,6 +29,11 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         buildLayout()
     }
+    
+    func setup(name: String, image: String) {
+        self.nameArtist.text = name
+        self.imageArtist.image = UIImage(named: image)
+    }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {

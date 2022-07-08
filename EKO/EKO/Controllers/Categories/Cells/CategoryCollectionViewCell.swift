@@ -31,6 +31,11 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         buildLayout()
     }
+    
+    func setup(tile: String, imageName: String) {
+        self.titleImage.text = tile
+        self.imageBanner.image = UIImage(named: imageName)
+    }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
