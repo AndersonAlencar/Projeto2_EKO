@@ -1,1 +1,3 @@
-# Projeto2_EKO
+# Projeto2 EKO
+
+Sobre arte indígena 
