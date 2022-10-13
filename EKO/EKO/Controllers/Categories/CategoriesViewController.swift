@@ -5,7 +5,7 @@ struct CategoryModel {
     let imageCategory: String
 }
 
-class CategoriesViewController: UIViewController {
+final class CategoriesViewController: UIViewController {
     
     let categoryModel = [
         CategoryModel(title: "Vestuário", imageCategory: "moda5"),
