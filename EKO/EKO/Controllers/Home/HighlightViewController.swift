@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HighlightViewController: UIViewController {
+final class HighlightViewController: UIViewController {
     
     private lazy var backgroundImage: UIImageView = {
         let image = UIImageView()
